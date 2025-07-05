@@ -1,0 +1,173 @@
+.live-counters {
+  padding: 80px 20px;
+  background: white;
+}
+
+.counters-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  padding: 0 20px;
+}
+
+.counter-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 20px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(30px);
+  border: 1px solid rgba(37, 99, 235, 0.1);
+}
+
+.counter-card.fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.counter-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+.counter-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  display: block;
+  animation: float 3s ease-in-out infinite;
+}
+
+.counter-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 10px;
+  font-family: 'Arial', sans-serif;
+  text-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+}
+
+.counter-label {
+  font-size: 1.1rem;
+  color: #64748b;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Individual card colors */
+.counter-card:nth-child(1) {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.counter-card:nth-child(1):hover {
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.counter-card:nth-child(1) .counter-number {
+  color: #d97706;
+}
+
+.counter-card:nth-child(2) {
+  background: linear-gradient(135deg, #dbeafe 0%, #93c5fd 100%);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.counter-card:nth-child(2):hover {
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.counter-card:nth-child(2) .counter-number {
+  color: #2563eb;
+}
+
+.counter-card:nth-child(3) {
+  background: linear-gradient(135deg, #dcfce7 0%, #86efac 100%);
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+.counter-card:nth-child(3):hover {
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+.counter-card:nth-child(3) .counter-number {
+  color: #16a34a;
+}
+
+.counter-card:nth-child(4) {
+  background: linear-gradient(135deg, #f3e8ff 0%, #c4b5fd 100%);
+  border-color: rgba(139, 92, 246, 0.2);
+}
+
+.counter-card:nth-child(4):hover {
+  border-color: rgba(139, 92, 246, 0.4);
+}
+
+.counter-card:nth-child(4) .counter-number {
+  color: #7c3aed;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .live-counters {
+    padding: 60px 20px;
+  }
+  
+  .counters-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .counter-card {
+    padding: 30px 20px;
+  }
+  
+  .counter-icon {
+    font-size: 2.5rem;
+  }
+  
+  .counter-number {
+    font-size: 2rem;
+  }
+  
+  .counter-label {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .counter-card {
+    padding: 25px 15px;
+  }
+  
+  .counter-icon {
+    font-size: 2rem;
+  }
+  
+  .counter-number {
+    font-size: 1.8rem;
+  }
+} 
