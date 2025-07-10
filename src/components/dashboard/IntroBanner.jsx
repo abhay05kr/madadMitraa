@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from '../../hooks/useTranslation';
 import './IntroBanner.css';
 
 const IntroBanner = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setIsVisible(true);
@@ -15,10 +17,10 @@ const IntroBanner = () => {
       </div>
       <div className="banner-content">
         <h1 className={`banner-heading ${isVisible ? 'fade-in-down' : ''}`}>
-          हमारे काम की झलक
+          {t('dashboard.intro.title')}
         </h1>
         <p className={`banner-subline ${isVisible ? 'fade-in-up' : ''}`}>
-          हर नंबर एक असली इंसान की कहानी है
+          {t('dashboard.intro.subtitle')}
         </p>
       </div>
     </section>

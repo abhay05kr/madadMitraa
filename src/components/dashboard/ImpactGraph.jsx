@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useTranslation } from '../../hooks/useTranslation';
 import './ImpactGraph.css';
 
 const ImpactGraph = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
+  const { t } = useTranslation();
 
   const graphData = [
     { month: 'Jan', value: 1200, color: '#3b82f6' },
@@ -30,7 +32,7 @@ const ImpactGraph = () => {
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.2 }
     );
 
     if (sectionRef.current) {
@@ -44,7 +46,7 @@ const ImpactGraph = () => {
     <section ref={sectionRef} className="impact-graph">
       <div className="graph-container">
         <div className="graph-section">
-          <h2 className="graph-title">मासिक प्रगति</h2>
+          <h2 className="graph-title">{t('dashboard.impactGraph.title')}</h2>
           <div className="graph-wrapper">
             <svg 
               className={`graph-svg ${isVisible ? 'animate-bars' : ''}`}
@@ -54,10 +56,8 @@ const ImpactGraph = () => {
             >
               {/* Y-axis */}
               <line x1="50" y1="50" x2="50" y2="250" stroke="#e5e7eb" strokeWidth="2" />
-              
               {/* X-axis */}
               <line x1="50" y1="250" x2="750" y2="250" stroke="#e5e7eb" strokeWidth="2" />
-              
               {/* Grid lines */}
               {[0, 1, 2, 3, 4, 5].map(i => (
                 <line 
@@ -70,28 +70,26 @@ const ImpactGraph = () => {
                   strokeWidth="1"
                 />
               ))}
-              
               {/* Bars */}
               {graphData.map((data, index) => {
                 const barHeight = (data.value / maxValue) * 160;
                 const barWidth = 50;
                 const x = 80 + (index * 60);
                 const y = 250 - barHeight;
-                
                 return (
                   <g key={index}>
-                                         <rect
-                       x={x}
-                       y={isVisible ? y : 250}
-                       width={barWidth}
-                       height={isVisible ? barHeight : 0}
-                       fill={data.color}
-                       className="graph-bar"
-                       style={{ 
-                         transition: 'all 1.5s ease-out',
-                         transitionDelay: `${index * 0.1}s`
-                       }}
-                     />
+                    <rect
+                      x={x}
+                      y={isVisible ? y : 250}
+                      width={barWidth}
+                      height={isVisible ? barHeight : 0}
+                      fill={data.color}
+                      className="graph-bar"
+                      style={{ 
+                        transition: 'all 1.5s ease-out',
+                        transitionDelay: `${index * 0.1}s`
+                      }}
+                    />
                     <text
                       x={x + barWidth / 2}
                       y="270"
@@ -105,7 +103,6 @@ const ImpactGraph = () => {
                   </g>
                 );
               })}
-              
               {/* Y-axis labels */}
               {[0, 1, 2, 3, 4, 5].map(i => (
                 <text
@@ -123,36 +120,35 @@ const ImpactGraph = () => {
             </svg>
           </div>
         </div>
-        
         <div className="graph-legend">
-          <h3 className="legend-title">महत्वपूर्ण जानकारी</h3>
+          <h3 className="legend-title">{t('dashboard.impactGraph.legendTitle', 'महत्वपूर्ण जानकारी')}</h3>
           <div className="legend-items">
             <div className="legend-item">
               <div className="legend-icon">📈</div>
               <div className="legend-content">
-                <h4>सबसे अच्छा महीना</h4>
-                <p>दिसंबर - 5,200+ लोगों की मदद</p>
+                <h4>{t('dashboard.impactGraph.bestMonth', 'सबसे अच्छा महीना')}</h4>
+                <p>{t('dashboard.impactGraph.bestMonthValue', 'दिसंबर - 5,200+ लोगों की मदद')}</p>
               </div>
             </div>
             <div className="legend-item">
               <div className="legend-icon">🎯</div>
               <div className="legend-content">
-                <h4>वार्षिक लक्ष्य</h4>
-                <p>50,000 लोगों तक पहुंचना</p>
+                <h4>{t('dashboard.impactGraph.annualTarget', 'वार्षिक लक्ष्य')}</h4>
+                <p>{t('dashboard.impactGraph.annualTargetValue', '50,000 लोगों तक पहुंचना')}</p>
               </div>
             </div>
             <div className="legend-item">
               <div className="legend-icon">📊</div>
               <div className="legend-content">
-                <h4>औसत मासिक</h4>
-                <p>3,200 लोगों की मदद</p>
+                <h4>{t('dashboard.impactGraph.avgMonthly', 'औसत मासिक')}</h4>
+                <p>{t('dashboard.impactGraph.avgMonthlyValue', '3,200 लोगों की मदद')}</p>
               </div>
             </div>
             <div className="legend-item">
               <div className="legend-icon">🚀</div>
               <div className="legend-content">
-                <h4>वृद्धि दर</h4>
-                <p>महीने-दर-महीने 15% बढ़ोतरी</p>
+                <h4>{t('dashboard.impactGraph.growthRate', 'वृद्धि दर')}</h4>
+                <p>{t('dashboard.impactGraph.growthRateValue', 'महीने-दर-महीने 15% बढ़ोतरी')}</p>
               </div>
             </div>
           </div>

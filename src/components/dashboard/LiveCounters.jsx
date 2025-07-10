@@ -59,19 +59,26 @@ const LiveCounters = () => {
   return (
     <section ref={sectionRef} className="live-counters">
       <div className="counters-container">
-        {counters.map((counter, index) => (
-          <div 
-            key={counter.id} 
-            className={`counter-card ${isVisible ? 'fade-in-up' : ''}`}
-            style={{ animationDelay: `${index * 0.2}s` }}
-          >
-            <div className="counter-icon">{counter.icon}</div>
-            <div className="counter-number">
-              {counter.current.toLocaleString()}{counter.suffix}
+        <div className="counters-header">
+          <h2 className="counters-title">Live Counters</h2>
+          <p className="counters-subtitle">Tracking key metrics in real-time.</p>
+        </div>
+        
+        <div className="counters-grid">
+          {counters.map((counter, index) => (
+            <div 
+              key={counter.id} 
+              className={`counter-card ${isVisible ? 'fade-in-up' : ''}`}
+              style={{ animationDelay: `${index * 0.2}s` }}
+            >
+              <div className="counter-icon">{counter.icon}</div>
+              <div className="counter-number">
+                {counter.current.toLocaleString()}{counter.suffix}
+              </div>
+              <div className="counter-label">{counter.label}</div>
             </div>
-            <div className="counter-label">{counter.label}</div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

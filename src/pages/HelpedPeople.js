@@ -1,23 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
-
-const categories = [
-  { key: 'all', label: 'सभी' },
-  { key: 'children', label: 'बच्चे' },
-  { key: 'elderly', label: 'वरिष्ठ नागरिक' },
-  { key: 'animals', label: 'पशु सहायता' },
-  { key: 'emergency', label: 'आपातकाल' },
-];
-
-const helpedList = [
-  { name: 'Amit', type: 'children', location: 'Lucknow', tag: 'शिक्षा', quote: 'अब मैं स्कूल जा सकता हूँ!', date: '2024-03-12', img: 'https://randomuser.me/api/portraits/men/32.jpg' },
-  { name: 'Priya', type: 'elderly', location: 'Kanpur', tag: 'भोजन', quote: 'आपकी मदद से भूख नहीं लगी।', date: '2024-02-28', img: 'https://randomuser.me/api/portraits/women/44.jpg' },
-  { name: 'Ravi', type: 'emergency', location: 'Varanasi', tag: 'चिकित्सा', quote: 'इलाज मिल गया, धन्यवाद!', date: '2024-01-15', img: 'https://randomuser.me/api/portraits/men/65.jpg' },
-  { name: 'Sana', type: 'children', location: 'Delhi', tag: 'अनाथ सहायता', quote: 'मुझे नए कपड़े और किताबें मिलीं।', date: '2024-03-01', img: 'https://randomuser.me/api/portraits/women/68.jpg' },
-  { name: 'Baba Ram', type: 'elderly', location: 'Allahabad', tag: 'भोजन', quote: 'अब पेट भरता है, दुआएं!', date: '2024-02-10', img: 'https://randomuser.me/api/portraits/men/70.jpg' },
-  { name: 'Tommy', type: 'animals', location: 'Lucknow', tag: 'पशु सहायता', quote: 'अब मैं स्वस्थ हूँ!', date: '2024-03-05', img: 'https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=256&h=256&q=80' },
-];
+import { Link } from 'react-router-dom';
+import { useTranslation } from '../hooks/useTranslation';
 
 const tagColors = {
+  'Food': 'green',
+  'Education': 'yellow',
+  'Medical': 'blue',
+  'Orphan Help': 'orange',
+  'Animal Help': 'purple',
   'भोजन': 'green',
   'शिक्षा': 'yellow',
   'चिकित्सा': 'blue',
@@ -25,22 +15,8 @@ const tagColors = {
   'पशु सहायता': 'purple',
 };
 
-const stories = [
-  {
-    before: { img: 'https://randomuser.me/api/portraits/men/32.jpg', note: 'स्कूल छूट गया था' },
-    after: { img: 'https://randomuser.me/api/portraits/men/32.jpg', note: 'अब स्कूल जाता हूँ!' }
-  },
-  {
-    before: { img: 'https://randomuser.me/api/portraits/women/44.jpg', note: 'भूख लगी थी' },
-    after: { img: 'https://randomuser.me/api/portraits/women/44.jpg', note: 'अब पेट भरता है' }
-  },
-  {
-    before: { img: 'https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=256&h=256&q=80', note: 'बीमार था' },
-    after: { img: 'https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=256&h=256&q=80', note: 'अब स्वस्थ हूँ' }
-  },
-];
-
 function HelpedPeople() {
+  const { t, language } = useTranslation();
   const [activeCat, setActiveCat] = useState('all');
   const [currentStory, setCurrentStory] = useState(0);
   const carouselRef = useRef();
@@ -48,12 +24,31 @@ function HelpedPeople() {
   useEffect(() => {
     document.body.style.overflowX = 'hidden';
     const interval = setInterval(() => {
-      setCurrentStory((c) => (c + 1) % stories.length);
+      setCurrentStory((c) => (c + 1) % t('helpedPeople.stories').length);
     }, 4000);
     return () => clearInterval(interval);
-  }, []);
+  }, [t]);
+
+  const categories = [
+    { key: 'all', label: t('helpedPeople.categories.all') },
+    { key: 'children', label: t('helpedPeople.categories.children') },
+    { key: 'elderly', label: t('helpedPeople.categories.elderly') },
+    { key: 'animals', label: t('helpedPeople.categories.animals') },
+    { key: 'emergency', label: t('helpedPeople.categories.emergency') },
+  ];
+
+  const helpedList = [
+    { name: 'Amit', type: 'children', location: 'Lucknow', tag: t('helpedPeople.tags.education'), quote: t('helpedPeople.quotes.0'), date: '2024-03-12', img: 'https://randomuser.me/api/portraits/men/32.jpg' },
+    { name: 'Priya', type: 'elderly', location: 'Kanpur', tag: t('helpedPeople.tags.food'), quote: t('helpedPeople.quotes.1'), date: '2024-02-28', img: 'https://randomuser.me/api/portraits/women/44.jpg' },
+    { name: 'Ravi', type: 'emergency', location: 'Varanasi', tag: t('helpedPeople.tags.medical'), quote: t('helpedPeople.quotes.2'), date: '2024-01-15', img: 'https://randomuser.me/api/portraits/men/65.jpg' },
+    { name: 'Sana', type: 'children', location: 'Delhi', tag: t('helpedPeople.tags.orphan'), quote: t('helpedPeople.quotes.3'), date: '2024-03-01', img: 'https://randomuser.me/api/portraits/women/68.jpg' },
+    { name: 'Baba Ram', type: 'elderly', location: 'Allahabad', tag: t('helpedPeople.tags.food'), quote: t('helpedPeople.quotes.4'), date: '2024-02-10', img: 'https://randomuser.me/api/portraits/men/70.jpg' },
+    { name: 'Tommy', type: 'animals', location: 'Lucknow', tag: t('helpedPeople.tags.animal'), quote: t('helpedPeople.quotes.5'), date: '2024-03-05', img: 'https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=256&h=256&q=80' },
+  ];
 
   const filtered = activeCat === 'all' ? helpedList : helpedList.filter(p => p.type === activeCat);
+
+  const stories = t('helpedPeople.stories');
 
   return (
     <div className="helped-root">
@@ -62,15 +57,15 @@ function HelpedPeople() {
         <div className="helped-intro-bg"></div>
         <div className="helped-intro-overlay"></div>
         <div className="helped-intro-content">
-          <h1 className="helped-intro-title">अब तक जिनकी ज़िंदगी बदली</h1>
-          <p className="helped-intro-sub">हमारा हर कदम किसी मुस्कान की वजह बना है।<br/>हर मुस्कान, हर धन्यवाद, हमारे लिए सबसे बड़ा इनाम है।</p>
+          <h1 className="helped-intro-title">{t('helpedPeople.intro.title')}</h1>
+          <p className="helped-intro-sub">{t('helpedPeople.intro.subtitle')}</p>
         </div>
       </section>
 
       {/* Why We Do This */}
       <section className="helped-why-section">
         <div className="helped-why-card">
-          <span role="img" aria-label="heart">❤️</span> हम मानते हैं कि हर छोटी मदद, किसी के लिए बड़ी उम्मीद बन सकती है।
+          <span role="img" aria-label="heart">❤️</span> {t('helpedPeople.why')}
         </div>
       </section>
 
@@ -101,7 +96,7 @@ function HelpedPeople() {
                 <div className="helped-name">{p.name}</div>
                 <div className="helped-location">{p.location}</div>
                 <div className={`helped-tag helped-tag-${tagColors[p.tag] || 'blue'}`}>{p.tag}</div>
-                <div className="helped-quote">“{p.quote}”</div>
+                <div className="helped-quote">"{p.quote}"</div>
                 <div className="helped-date">{p.date}</div>
               </div>
             </div>
@@ -112,16 +107,16 @@ function HelpedPeople() {
       {/* Success Stories Carousel */}
       <section className="helped-carousel-section">
         <div className="helped-carousel" ref={carouselRef}>
-          {stories.map((s, i) => (
+          {stories.map((story, i) => (
             <div className={`helped-carousel-slide${i === currentStory ? ' active' : ''}`} key={i}>
-              <div className="helped-carousel-card before">
-                <img src={s.before.img} alt="before" />
-                <div className="helped-carousel-note">{s.before.note}</div>
+              <div className="helped-carousel-card">
+                <img src={filtered[0]?.img || ''} alt="Before" />
+                <div className="helped-carousel-note">{story.before.note}</div>
               </div>
               <div className="helped-carousel-arrow">→</div>
-              <div className="helped-carousel-card after">
-                <img src={s.after.img} alt="after" />
-                <div className="helped-carousel-note">{s.after.note}</div>
+              <div className="helped-carousel-card">
+                <img src={filtered[0]?.img || ''} alt="After" />
+                <div className="helped-carousel-note">{story.after.note}</div>
               </div>
             </div>
           ))}
@@ -130,10 +125,10 @@ function HelpedPeople() {
 
       {/* CTA Banner */}
       <section className="helped-cta-banner">
-        <h2>क्या आप भी किसी की कहानी का हिस्सा बनना चाहते हैं?</h2>
+        <h2>{language === 'hi' ? 'क्या आप भी किसी की मदद करना चाहते हैं?' : 'Do you also want to help someone?'}</h2>
         <div className="helped-cta-btns">
-          <a href="/get-help" className="btn btn-accent helped-cta-btn">मदद चाहिए</a>
-          <a href="/join-us" className="btn btn-white helped-cta-btn">मैं मदद करना चाहता हूँ</a>
+          <Link to="/join-us" className="btn btn-accent helped-cta-btn">{language === 'hi' ? 'स्वयंसेवक बनें' : 'Become Volunteer'}</Link>
+          <Link to="/get-help" className="btn btn-white helped-cta-btn">{language === 'hi' ? 'मदद माँगें' : 'Request Help'}</Link>
         </div>
       </section>
     </div>

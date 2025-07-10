@@ -1,19 +1,14 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useTranslation } from '../hooks/useTranslation';
+import adarshImg from '../assets/images/adarsh.jpg';
+import abhayImg from '../assets/images/abhay1.jpg';
+import sarveshImg from '../assets/images/sarvesh.jpg';
+import abdulImg from '../assets/images/abdul.jpg';
+import amitImg from '../assets/images/amit.jpg';
+import aasraLogo from '../assets/images/aasra_logo.jpg';
 
-const journey = [
-  { title: 'शुरुआत', desc: '2022 में कुछ दोस्तों ने मिलकर मदद की एक नई राह चुनी।' },
-  { title: 'पहला अभियान', desc: 'पहली बार 50 परिवारों को भोजन और कपड़े दिए।' },
-  { title: 'टीम विस्तार', desc: 'नई जगहों पर नए वालंटियर्स जुड़े।' },
-  { title: 'सैकड़ों की मदद', desc: 'अब तक 1200+ लोगों की मदद की जा चुकी है।' },
-];
-
-const team = [
-  { name: 'Adarsh Kumar', role: 'Co-Founder', quote: 'मदद करना मेरा धर्म है।', img: 'https://randomuser.me/api/portraits/men/32.jpg', linkedin: '#', twitter: '#' },
-  { name: 'Abhay Kumar', role: 'Co-Founder', quote: 'हर मुस्कान की कीमत है।', img: 'https://randomuser.me/api/portraits/men/45.jpg', linkedin: '#', twitter: '#' },
-  { name: 'Sarvesh kumar', role: 'Co-Founder', quote: 'साथ चलें, साथ बढ़ें।', img: 'https://randomuser.me/api/portraits/women/44.jpg', linkedin: '#', twitter: '#' },
-  { name: 'Abdul Salam', role: 'Co-Founder', quote: 'आपका साथ,हमारा प्रयास', img: 'https://randomuser.me/api/portraits/women/44.jpg', linkedin: '#', twitter: '#' },
-  { name: 'Amit kumar', role: 'Co-Founder', quote: 'साथ चलें, साथ बढ़ें।', img: 'https://randomuser.me/api/portraits/women/44.jpg', linkedin: '#', twitter: '#' },
-];
+const teamImages = [adarshImg, abhayImg, sarveshImg, abdulImg, amitImg];
 
 const partners = [
   { name: 'NGO One', logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png' },
@@ -21,8 +16,9 @@ const partners = [
   { name: 'Charity Org', logo: 'https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg' },
 ];
 
-
 function About() {
+  const { t } = useTranslation();
+  
   // Remove horizontal scrollbars
   useEffect(() => {
     document.body.style.overflowX = 'hidden';
@@ -33,16 +29,19 @@ function About() {
     <div className="about-root">
       {/* Hero Section */}
       <section className="about-hero">
-        <h1 className="about-hero-title">हम कौन हैं?</h1>
-        <p className="about-hero-sub">"कुछ लोग मदद माँगते हैं, कुछ लोग मदद करते हैं, और हम — वो पुल हैं जो इन्हें जोड़ता है।"</p>
+        <div className="about-hero-logo">
+          <img src={aasraLogo} alt="AASRA WELFARE FOUNDATION" className="about-logo-img" />
+        </div>
+        <h1 className="about-hero-title">{t('about.hero.title')}</h1>
+        <p className="about-hero-sub">{t('about.hero.subtitle')}</p>
       </section>
 
       {/* Our Story Timeline */}
       <section className="about-timeline-section">
-        <h2 className="about-timeline-title">हमारी यात्रा</h2>
+        <h2 className="about-timeline-title">{t('about.journey.title')}</h2>
         <div className="about-timeline">
           <div className="about-timeline-line"></div>
-          {journey.map((step, i) => (
+          {t('about.journey.steps').map((step, i) => (
             <div className={`about-timeline-row ${i % 2 === 0 ? 'left' : 'right'}`} key={i}>
               <div className="about-timeline-card">
                 <h3>{step.title}</h3>
@@ -55,18 +54,19 @@ function About() {
 
       {/* Meet the Team */}
       <section className="about-team-section">
-        <h2 className="about-team-title">हमारी टीम</h2>
+        <h2 className="about-team-title">{t('about.team.title')}</h2>
         <div className="about-team-scroll-container">
           <div className="about-team-grid">
-            {team.map((member, i) => (
+            {t('about.team.members').map((member, i) => (
               <div className="about-team-card" key={i}>
-                <img src={member.img} alt={member.name} className="about-team-img" />
+                <img src={teamImages[i]} alt={member.name} className="about-team-img" />
                 <h4 className="about-team-name">{member.name}</h4>
                 <p className="about-team-role">{member.role}</p>
                 <p className="about-team-quote">"{member.quote}"</p>
-                <div className="about-team-social">
-                  <a href={member.linkedin} aria-label="LinkedIn"><i className="fab fa-linkedin"></i></a>
-                  <a href={member.twitter} aria-label="Twitter"><i className="fab fa-twitter"></i></a>
+                <div className="about-team-social-icons">
+                  <button className="social-btn" aria-label="LinkedIn"><i className="fab fa-linkedin"></i></button>
+                  <button className="social-btn" aria-label="Instagram"><i className="fab fa-instagram"></i></button>
+                  <button className="social-btn" aria-label="Facebook"><i className="fab fa-facebook"></i></button>
                 </div>
               </div>
             ))}
@@ -78,12 +78,12 @@ function About() {
       <section className="about-mission-section">
         <div className="about-mission-grid">
           <div className="about-mission-card green">
-            <h3>हमारा उद्देश्य</h3>
-            <p>हर जरूरतमंद तक सहायता पहुँचाना, चाहे वो शिक्षा हो, भोजन, स्वास्थ्य या भावनात्मक सहयोग।</p>
+            <h3>{t('about.mission.title')}</h3>
+            <p>{t('about.mission.description')}</p>
           </div>
           <div className="about-mission-card yellow">
-            <h3>हमारा विजन</h3>
-            <p>एक ऐसा भारत जहाँ मदद माँगने में संकोच ना हो और मदद करने में हिचक ना हो।</p>
+            <h3>{t('about.vision.title')}</h3>
+            <p>{t('about.vision.description')}</p>
           </div>
         </div>
       </section>
@@ -101,11 +101,11 @@ function About() {
 
       {/* CTA Banner */}
       <section className="about-cta-banner">
-        <h2>क्या आप भी बदलाव का हिस्सा बनना चाहते हैं?</h2>
-        <p>हमारे साथ मिलकर किसी की ज़िन्दगी बदलिए।</p>
+        <h2>{t('about.cta.title')}</h2>
+        <p>{t('about.cta.subtitle')}</p>
         <div className="about-cta-btns">
-          <a href="/join-us" className="btn btn-accent">Volunteer Now</a>
-          <a href="/donate" className="btn btn-white">Donate Now</a>
+          <Link to="/join-us" className="btn btn-accent">{t('about.cta.volunteerBtn')}</Link>
+          <a href="/donate" className="btn btn-white">{t('about.cta.donateBtn')}</a>
         </div>
       </section>
     </div>

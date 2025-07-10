@@ -1,42 +1,44 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useTranslation } from '../hooks/useTranslation';
 
-const services = [
-  { icon: '🍲', title: 'भोजन सहायता', desc: 'जरूरतमंदों को पौष्टिक भोजन उपलब्ध कराना।' },
-  { icon: '📚', title: 'शिक्षा', desc: 'बच्चों को किताबें, फीस और शिक्षा सामग्री देना।' },
-  { icon: '🩺', title: 'चिकित्सा', desc: 'मेडिकल सहायता और दवाइयाँ उपलब्ध कराना।' },
-  { icon: '🐾', title: 'पशु कल्याण', desc: 'बेजुबान जानवरों की देखभाल और सहायता।' },
-  { icon: '👶', title: 'अनाथ बच्चों की मदद', desc: 'अनाथ बच्चों को कपड़े, खिलौने और शिक्षा देना।' },
-  { icon: '🌱', title: 'पर्यावरण', desc: 'पौधारोपण और स्वच्छता अभियान।' },
-];
-
-const testimonials = [
-  { name: 'Amit', quote: 'SahyogSetu ने मेरी ज़िन्दगी बदल दी।', img: 'https://randomuser.me/api/portraits/men/32.jpg' },
-  { name: 'Priya', quote: 'मुझे समय पर मदद मिली, धन्यवाद!', img: 'https://randomuser.me/api/portraits/women/44.jpg' },
-  { name: 'Ravi', quote: 'यहाँ के लोग बहुत दयालु हैं।', img: 'https://randomuser.me/api/portraits/men/65.jpg' },
-];
-
-function useCountUp(end, duration = 2000) {
+function useCountUp(end) {
   const [count, setCount] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
   useEffect(() => {
-    let start = 0;
-    const increment = end / (duration / 16);
-    let raf;
-    function update() {
-      start += increment;
-      if (start < end) {
-        setCount(Math.floor(start));
-        raf = requestAnimationFrame(update);
-      } else {
-        setCount(end);
-      }
-    }
-    update();
-    return () => cancelAnimationFrame(raf);
-  }, [end, duration]);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          let start = 0;
+          const increment = end / 50;
+          const timer = setInterval(() => {
+            start += increment;
+            if (start >= end) {
+              setCount(end);
+              clearInterval(timer);
+            } else {
+              setCount(Math.floor(start));
+            }
+          }, 30);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    const element = document.querySelector('.impact-section');
+    if (element) observer.observe(element);
+
+    return () => observer.disconnect();
+  }, [end, hasAnimated]);
+
   return count;
 }
 
 function Home() {
+  const { t } = useTranslation();
+  
   // Impact metrics
   const helped = useCountUp(1200);
   const volunteers = useCountUp(150);
@@ -47,45 +49,45 @@ function Home() {
   const intervalRef = useRef();
   useEffect(() => {
     intervalRef.current = setInterval(() => {
-      setCurrent((c) => (c + 1) % testimonials.length);
+      setCurrent((c) => (c + 1) % t('home.testimonials.stories').length);
     }, 3500);
     return () => clearInterval(intervalRef.current);
-  }, []);
+  }, [t]);
 
   return (
     <div className="home-root">
       {/* Hero Section */}
       <section className="hero-section-home">
         <div className="hero-left">
-          <h2 className="hero-heading">एक साथ, एक उम्मीद, <br /> एक बदलाव।</h2>
-          <p className="hero-subtext">हम मिलकर बदल सकते हैं ज़िन्दगियाँ — बस एक साथ चलने की ज़रूरत है।</p>
+          <h2 className="hero-heading">{t('home.hero.title')}</h2>
+          <p className="hero-subtext">{t('home.hero.subtitle')}</p>
           <div className="hero-cta-group">
-            <a href="/join-us" className="btn btn-accent">Join as Volunteer</a>
-            <a href="/get-help" className="btn btn-white">Request Help</a>
+            <Link to="/join-us" className="btn btn-accent">{t('home.hero.volunteerBtn')}</Link>
+            <Link to="/get-help" className="btn btn-white">{t('home.hero.helpBtn')}</Link>
           </div>
         </div>
         <div className="hero-right">
-          <img src="https://cdn.pixabay.com/photo/2017/01/31/13/14/hands-2027760_1280.png" alt="Helping Hands" className="hero-img animate-float" />
+          <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=600&q=80" alt="Helping Hands" className="hero-img animate-float" />
         </div>
       </section>
 
       {/* Who We Are Section */}
       <section className="who-section fade-in">
         <div className="who-left">
-          <h3 className="who-title">हम कौन हैं?</h3>
-          <p className="who-mission">हमारा मिशन है समाज के हर जरूरतमंद तक मदद पहुँचाना, ताकि कोई भी पीछे न रह जाए।</p>
+          <h3 className="who-title">{t('home.whoWeAre.title')}</h3>
+          <p className="who-mission">{t('home.whoWeAre.mission')}</p>
         </div>
         <div className="who-right">
-          <div className="who-vision">हमारा विज़न: <br /> एक ऐसा समाज जहाँ हर कोई एक-दूसरे का सहारा बने।</div>
+          <div className="who-vision">{t('home.whoWeAre.vision')}</div>
           <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Team" className="who-img" />
         </div>
       </section>
 
       {/* What We Do Section */}
       <section className="what-section">
-        <h2 className="what-title">हम क्या करते हैं?</h2>
+        <h2 className="what-title">{t('home.whatWeDo.title')}</h2>
         <div className="what-grid">
-          {services.map((item, i) => (
+          {t('home.whatWeDo.services').map((item, i) => (
             <div className="what-card" key={i}>
               <div className="what-icon">{item.icon}</div>
               <div className="what-card-title">{item.title}</div>
@@ -99,26 +101,26 @@ function Home() {
       <section className="impact-section">
         <div className="impact-card">
           <div className="impact-number">{helped}+</div>
-          <div className="impact-label">लोगों की मदद</div>
+          <div className="impact-label">{t('home.impact.peopleHelped')}</div>
         </div>
         <div className="impact-card">
           <div className="impact-number">{volunteers}+</div>
-          <div className="impact-label">वालंटियर्स</div>
+          <div className="impact-label">{t('home.impact.volunteers')}</div>
         </div>
         <div className="impact-card">
           <div className="impact-number">{ongoing}</div>
-          <div className="impact-label">चल रहे केस</div>
+          <div className="impact-label">{t('home.impact.ongoingCases')}</div>
         </div>
       </section>
 
       {/* Testimonials Carousel */}
       <section className="testimonials-section">
-        <h2 className="testimonials-title">सच्ची कहानियाँ</h2>
+        <h2 className="testimonials-title">{t('home.testimonials.title')}</h2>
         <div className="testimonials-carousel">
-          {testimonials.map((t, i) => (
+          {t('home.testimonials.stories').map((t, i) => (
             <div className={`testimonial-card${i === current ? ' active' : ''}`} key={i}>
-              <img src={t.img} alt={t.name} className="testimonial-img" />
-              <div className="testimonial-quote">“{t.quote}”</div>
+              <img src={`https://randomuser.me/api/portraits/${t.name === 'Priya' ? 'women' : 'men'}/${32 + i * 12}.jpg`} alt={t.name} className="testimonial-img" />
+              <div className="testimonial-quote">"{t.quote}"</div>
               <div className="testimonial-name">- {t.name}</div>
             </div>
           ))}
@@ -128,8 +130,8 @@ function Home() {
       {/* Email Notification Form */}
       <section className="email-section">
         <form className="email-form">
-          <input type="email" placeholder="Enter your email for updates" required />
-          <button type="submit" className="btn btn-primary">Notify Me</button>
+          <input type="email" placeholder={t('home.email.placeholder')} required />
+          <button type="submit" className="btn btn-primary">{t('home.email.button')}</button>
         </form>
       </section>
     </div>

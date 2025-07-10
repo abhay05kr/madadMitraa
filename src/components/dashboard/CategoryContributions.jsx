@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useTranslation } from '../../hooks/useTranslation';
 import './CategoryContributions.css';
 
 const CategoryContributions = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
+  const { t } = useTranslation();
 
   const categories = [
     {
       id: 1,
       icon: '📚',
-      name: 'शिक्षा',
+      name: t('dashboard.categoryContributions.categories.0.name'),
       count: '800+',
       target: 1000,
       current: 800,
@@ -19,7 +21,7 @@ const CategoryContributions = () => {
     {
       id: 2,
       icon: '🍱',
-      name: 'भोजन',
+      name: t('dashboard.categoryContributions.categories.1.name'),
       count: '23,450+',
       target: 25000,
       current: 23450,
@@ -29,7 +31,7 @@ const CategoryContributions = () => {
     {
       id: 3,
       icon: '🏥',
-      name: 'स्वास्थ्य',
+      name: t('dashboard.categoryContributions.categories.2.name'),
       count: '890+',
       target: 1200,
       current: 890,
@@ -39,7 +41,7 @@ const CategoryContributions = () => {
     {
       id: 4,
       icon: '🏠',
-      name: 'आवास',
+      name: t('dashboard.categoryContributions.categories.3.name'),
       count: '450+',
       target: 600,
       current: 450,
@@ -49,7 +51,7 @@ const CategoryContributions = () => {
     {
       id: 5,
       icon: '👕',
-      name: 'कपड़े',
+      name: t('dashboard.categoryContributions.categories.4.name'),
       count: '1,200+',
       target: 1500,
       current: 1200,
@@ -59,7 +61,7 @@ const CategoryContributions = () => {
     {
       id: 6,
       icon: '🐾',
-      name: 'पशु कल्याण',
+      name: t('dashboard.categoryContributions.categories.3.name'),
       count: '320+',
       target: 500,
       current: 320,
@@ -89,9 +91,9 @@ const CategoryContributions = () => {
   return (
     <section ref={sectionRef} className="category-contributions">
       <div className="contributions-container">
-        <h2 className="contributions-title">श्रेणी-वार योगदान</h2>
+        <h2 className="contributions-title">{t('dashboard.categoryContributions.title')}</h2>
         <p className="contributions-subtitle">
-          हमारे प्रयासों का विभिन्न क्षेत्रों में वितरण
+          {t('dashboard.categoryContributions.subtitle')}
         </p>
         
         <div className="categories-grid">
@@ -99,7 +101,7 @@ const CategoryContributions = () => {
             const progressPercentage = (category.current / category.target) * 100;
             
             return (
-              <div 
+              <div
                 key={category.id}
                 className={`category-card ${isVisible ? 'fade-in-up' : ''}`}
                 style={{ 
@@ -113,18 +115,18 @@ const CategoryContributions = () => {
                   <div className="category-count">{category.count}</div>
                   <div className="progress-container">
                     <div className="progress-bar">
-                                             <div 
-                         className="progress-fill"
-                         style={{ 
-                           width: isVisible ? `${progressPercentage}%` : '0%',
-                           backgroundColor: category.color,
-                           transition: 'width 1.5s ease-out',
-                           transitionDelay: `${index * 0.1 + 0.5}s`
-                         }}
-                       ></div>
+                      <div 
+                        className="progress-fill"
+                        style={{ 
+                          width: isVisible ? `${progressPercentage}%` : '0%',
+                          backgroundColor: category.color,
+                          transition: 'width 1.5s ease-out',
+                          transitionDelay: `${index * 0.1 + 0.5}s`
+                        }}
+                      ></div>
                     </div>
                     <span className="progress-text">
-                      {Math.round(progressPercentage)}% पूर्ण
+                      {Math.round(progressPercentage)}% {t('common.completed')}
                     </span>
                   </div>
                 </div>

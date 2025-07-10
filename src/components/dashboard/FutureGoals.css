@@ -52,7 +52,7 @@
   transition: all 0.3s ease;
   opacity: 0;
   transform: translateY(30px);
-  border: 2px solid transparent;
+  border: 3px solid;
   position: relative;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   bottom: 0;
   border: 2px solid;
   border-radius: 20px;
-  opacity: 0;
+  opacity: 0.3;
   animation: glowBorder 2s ease-in-out infinite;
   pointer-events: none;
 }
@@ -172,6 +172,27 @@
     opacity: 0.6;
     transform: scale(1.02);
   }
+}
+
+/* Add specific border colors for each goal card */
+.goal-card:nth-child(1) .goal-glow {
+  border-color: #3b82f6;
+}
+
+.goal-card:nth-child(2) .goal-glow {
+  border-color: #10b981;
+}
+
+.goal-card:nth-child(3) .goal-glow {
+  border-color: #f59e0b;
+}
+
+.goal-card:nth-child(4) .goal-glow {
+  border-color: #8b5cf6;
+}
+
+.goal-card:nth-child(5) .goal-glow {
+  border-color: #ef4444;
 }
 
 @keyframes fadeInUp {

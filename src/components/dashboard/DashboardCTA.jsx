@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
-import './DashboardCTA.css';
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "../../hooks/useTranslation";
+import "./DashboardCTA.css";
 
 const DashboardCTA = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -23,65 +25,62 @@ const DashboardCTA = () => {
     return () => observer.disconnect();
   }, []);
 
-  const handleButtonClick = (action) => {
-    // Add ripple effect
-    const button = event.target;
-    const ripple = document.createElement('span');
-    const rect = button.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    const x = event.clientX - rect.left - size / 2;
-    const y = event.clientY - rect.top - size / 2;
-    
-    ripple.style.width = ripple.style.height = size + 'px';
-    ripple.style.left = x + 'px';
-    ripple.style.top = y + 'px';
-    ripple.classList.add('ripple');
-    
-    button.appendChild(ripple);
-    
-    setTimeout(() => {
-      ripple.remove();
-    }, 600);
-    
-    // Handle navigation or action
-    if (action === 'volunteer') {
-      // Navigate to volunteer page or open form
-      console.log('Navigate to volunteer page');
-    } else if (action === 'contribute') {
-      // Navigate to contribute page or open form
-      console.log('Navigate to contribute page');
-    }
-  };
+  const handleButtonClick = (event, action) => {
+  const button = event.target;
+  const ripple = document.createElement("span");
+  const rect = button.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  const x = event.clientX - rect.left - size / 2;
+  const y = event.clientY - rect.top - size / 2;
+
+  ripple.style.width = ripple.style.height = size + "px";
+  ripple.style.left = x + "px";
+  ripple.style.top = y + "px";
+  ripple.classList.add("ripple");
+
+  button.appendChild(ripple);
+
+  setTimeout(() => {
+    ripple.remove();
+  }, 600);
+
+  if (action === "volunteer") {
+    console.log("Navigate to volunteer page");
+  } else if (action === "contribute") {
+    console.log("Navigate to contribute page");
+  }
+};
+
 
   return (
     <section ref={sectionRef} className="dashboard-cta">
       <div className="cta-container">
-        <div className={`cta-content ${isVisible ? 'fade-in-up' : ''}`}>
+        <div className={`cta-content ${isVisible ? "fade-in-up" : ""}`}>
           <h2 className="cta-title">
-            हमारा सफ़र जारी है। क्या आप इसका हिस्सा बनना चाहेंगे?
+            {t('dashboard.cta.title')}
           </h2>
           <p className="cta-subtitle">
-            हर छोटा योगदान बड़ा बदलाव ला सकता है। आज ही शुरू करें!
+            {t('dashboard.cta.subtitle')}
           </p>
-          
+
           <div className="cta-buttons">
-            <button 
+            <button
               className="cta-button volunteer-btn"
-              onClick={() => handleButtonClick('volunteer')}
+              onClick={(e) => handleButtonClick(e,"volunteer")}
             >
-              <span className="button-text">स्वयंसेवक बनें</span>
+              <span className="button-text">{t('dashboard.cta.volunteerBtn')}</span>
               <span className="button-icon">🤝</span>
             </button>
-            
-            <button 
+
+            <button
               className="cta-button contribute-btn"
-              onClick={() => handleButtonClick('contribute')}
+              onClick={(e) => handleButtonClick(e,"contribute")}
             >
-              <span className="button-text">संसाधन दान करें</span>
+              <span className="button-text">{t('dashboard.cta.contributeBtn')}</span>
               <span className="button-icon">💝</span>
             </button>
           </div>
-          
+
           <div className="cta-stats">
             <div className="stat-item">
               <div className="stat-number">500+</div>
@@ -102,4 +101,4 @@ const DashboardCTA = () => {
   );
 };
 
-export default DashboardCTA; 
+export default DashboardCTA;
