@@ -10,6 +10,60 @@ import aasraLogo from '../assets/images/aasra_logo.jpg';
 
 const teamImages = [adarshImg, abhayImg, sarveshImg, abdulImg, amitImg];
 
+// Team data with social media links
+const teamData = [
+  {
+    name: 'Adarsh Kumar',
+    role: 'Co-Founder',
+    quote: 'मदद करना मेरा धर्म है।',
+    social: {
+      linkedin: 'https://www.linkedin.com/in/adarsh-kumar-0590a8235?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
+      instagram: 'https://www.instagram.com/its_adarshkr_2810?igsh=MWY0ZzZ3bmxheW8zMw==',
+      facebook: 'https://www.facebook.com/share/19cH1L8KHw/'
+    }
+  },
+  {
+    name: 'Abhay Kumar',
+    role: 'Co-Founder',
+    quote: 'हर मुस्कान की कीमत है।',
+    social: {
+      linkedin: 'https://www.linkedin.com/in/abhay-kumar-588a22230/',
+      instagram: 'https://www.instagram.com/imrishi05?igsh=ODQ3dXBmZ202dXIz',
+      facebook: 'https://www.facebook.com/share/r/1BsL1eY45U/'
+    }
+  },
+  {
+    name: 'Sarvesh kumar',
+    role: 'Co-Founder',
+    quote: 'साथ चलें, साथ बढ़ें।',
+    social: {
+      linkedin: 'https://www.linkedin.com/in/sarvesh-kumar-b890b2231',
+      instagram: 'https://www.instagram.com/sarveshkr_45?igsh=MXNrem14anBwa29uMA==',
+      facebook: 'https://www.facebook.com/share/1GNB8dTdNa/'
+    }
+  },
+  {
+    name: 'Abdul Salam',
+    role: 'Co-Founder',
+    quote: 'आपका साथ,हमारा प्रयास',
+    social: {
+      linkedin: 'https://www.linkedin.com/in/abdul-salam-2a53b024a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
+      instagram: '',
+      facebook: 'https://www.facebook.com/abdul.salam.25786'
+    }
+  },
+  {
+    name: 'Amit kumar',
+    role: 'Co-Founder',
+    quote: 'साथ चलें, साथ बढ़ें।',
+    social: {
+      linkedin: '',
+      instagram: 'https://www.instagram.com/__amit_patel0?utm_source=qr&igsh=anJ4dHFoMDBoaXh3',
+      facebook: 'https://www.facebook.com/share/16x4h3V4By/'
+    }
+  }
+];
+
 const partners = [
   { name: 'NGO One', logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png' },
   { name: 'Brand Two', logo: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/Apple-logo.png' },
@@ -57,16 +111,46 @@ function About() {
         <h2 className="about-team-title">{t('about.team.title')}</h2>
         <div className="about-team-scroll-container">
           <div className="about-team-grid">
-            {t('about.team.members').map((member, i) => (
+            {teamData.map((member, i) => (
               <div className="about-team-card" key={i}>
                 <img src={teamImages[i]} alt={member.name} className="about-team-img" />
                 <h4 className="about-team-name">{member.name}</h4>
                 <p className="about-team-role">{member.role}</p>
                 <p className="about-team-quote">"{member.quote}"</p>
                 <div className="about-team-social-icons">
-                  <button className="social-btn" aria-label="LinkedIn"><i className="fab fa-linkedin"></i></button>
-                  <button className="social-btn" aria-label="Instagram"><i className="fab fa-instagram"></i></button>
-                  <button className="social-btn" aria-label="Facebook"><i className="fab fa-facebook"></i></button>
+                  {member.social.linkedin && (
+                    <a 
+                      href={member.social.linkedin} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="social-btn" 
+                      aria-label="LinkedIn"
+                    >
+                      <i className="fab fa-linkedin"></i>
+                    </a>
+                  )}
+                  {member.social.instagram && (
+                    <a 
+                      href={member.social.instagram} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="social-btn" 
+                      aria-label="Instagram"
+                    >
+                      <i className="fab fa-instagram"></i>
+                    </a>
+                  )}
+                  {member.social.facebook && (
+                    <a 
+                      href={member.social.facebook} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="social-btn" 
+                      aria-label="Facebook"
+                    >
+                      <i className="fab fa-facebook"></i>
+                    </a>
+                  )}
                 </div>
               </div>
             ))}

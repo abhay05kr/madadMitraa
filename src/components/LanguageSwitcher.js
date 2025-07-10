@@ -12,10 +12,7 @@ const LanguageSwitcher = () => {
       aria-label={`Switch to ${language === 'hi' ? 'English' : 'Hindi'}`}
     >
       <span className="language-flag">
-        {language === 'hi' ? '🇮🇳' : '🇺🇸'}
-      </span>
-      <span className="language-text">
-        {language === 'hi' ? 'EN' : 'हिं'}
+        {language === 'hi' ? '🇺🇸' : '🇮🇳'}
       </span>
     </button>
   );
